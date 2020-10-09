@@ -2154,7 +2154,6 @@ mitch_report <- function(res, outfile , overwrite=FALSE) {
 }
 
 
-
 #' Reactome gene sets
 #'
 #' Genesets from Reactome database suitable for enrichment analysis.
