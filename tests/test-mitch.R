@@ -16,11 +16,24 @@ mitch_report(res,"1d.html")
 test_that("1d works", {
     expect_equal(  length(which(res$enrichment_result$p.adjustANOVA<0.1)) ,1)
     expect_true(file.info("1d.pdf")$size>10000)
-    expect_true(file.info("1d.html")$size>4000000)
+    expect_true(file.info("1d.html")$size>1000000)
 })
 
 unlink("1d.html")
 unlink("1d.pdf")
+
+
+# 1d part 2 to make sure that saving files at a different location works
+MYPATH=paste(getwd(),"/1d.html",sep="")
+if (file.exists("1d.html")) { unlink("1d.html") }
+mitch_report(res,MYPATH)
+
+test_that("1d works", {
+    expect_true(file.info("1d.html")$size>1000000)
+})
+
+unlink("1d.html")
+
 
 
 # 2d

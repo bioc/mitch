@@ -1054,6 +1054,9 @@ gmt_import <- function(gmtfile) {
     genesets <- lapply(genesetLines, utils::tail, -2)
     names(genesets) <- unlist(lapply(genesetLines, head, 1))
     attributes(genesets)$originfile <- gmtfile
+    if( any(duplicated(names(genesets))) ) {
+        warning("Duplicated gene sets names detected")
+    }
     genesets
 }
 
@@ -1084,7 +1087,7 @@ MANOVA <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1,
     # calculate the hypotenuse for downstream use
     HYPOT = hypotenuse(apply(x, 2, length))
     
-    res <- pbmclapply(sets, function(set) {
+    res <- mclapply(sets, function(set) {
         
         inset <- rownames(x) %in% as.character(unlist(genesets[set]))
         
@@ -1171,7 +1174,7 @@ priority = NULL) {
 
     x<-x[which(!is.na(x)),,drop=FALSE]
     
-    res <- pbmclapply(sets, function(set) {
+    res <- mclapply(sets, function(set) {
         resample <- function(x, set) {
             sss <- x[which(rownames(x) %in% 
                 as.character(unlist(genesets[set]))),]
@@ -1434,7 +1437,6 @@ get_os <- function(){
 #' prioritised gene sets.
 #' @keywords mitch calc calculate manova 
 #' @import parallel
-#' @importFrom pbmcapply pbmclapply
 #' @import stats
 #' @importFrom plyr ldply
 #' @export
@@ -1447,7 +1449,9 @@ get_os <- function(){
 mitch_calc <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1,
     resrows = 50, priority = NULL) {
     
-    colnames(x) <- sub("-", "_", colnames(x))
+    colnames(x) <- gsub("[[:punct:]]", "_", colnames(x))
+    colnames(x) <- substr(colnames(x), 1, 14)
+    if ( any(duplicated(colnames(x)))) { stop("Duplicate column names.") }
     input_profile <- x
     input_genesets <- genesets
     ranked_profile <- mitch_rank(input_profile)
@@ -1904,6 +1908,9 @@ plot3d_detailed_density <- function(res, i) {
     size <- ll$setSize
     sss <- res$detailed_sets[[i]]
     
+    empty_cnt <- length(which(is.na(cor(sss,use="pairwise.complete.obs"))))
+    if ( empty_cnt > 0 ) { return("Too few genes. Skipping density plot.") }
+
     if (d > 5) {
         colnames(sss) <- paste("d", seq_len(ncol(res$input_profile)), sep = "")
     }
@@ -1938,6 +1945,9 @@ plot3d_detailed_points <- function(res, i) {
     ll <- res$enrichment_result[i, ]
     size <- ll$setSize
     sss <- res$detailed_sets[[i]]
+
+    empty_cnt <- length(which(is.na(cor(sss,use="pairwise.complete.obs"))))
+    if ( empty_cnt > 0 ) { return("Too few genes. Skipping ggpairs plot.") }
     
     if (d > 5) {
         colnames(sss) <- paste("d", seq_len(ncol(res$input_profile)), sep = "")
@@ -1969,6 +1979,10 @@ plot3d_detailed_violin <- function(res, i) {
     ss <- res$ranked_profile
     ll <- res$enrichment_result[i, ]
     sss <- res$detailed_sets[[i]]
+
+    empty_cnt <- apply(sss,2,function(x) sum(as.numeric(is.finite(x))))
+    empty_cnt <- length(which(empty_cnt==0))
+    if ( empty_cnt > 0 ) { return("Too few genes. Skipping violin plot.") }
     
     if (d > 5) {
         colnames(sss) <- paste("d", seq_len(ncol(res$input_profile)), sep = "")
@@ -2087,6 +2101,7 @@ mitch_plots <- function(res, outfile = "Rplots.pdf") {
 #' @param outfile the destination file for the html report. should contain
 #' 'html' suffix. Defaults to 
 #' 'Rplots.pdf'
+#' @param overwrite should overwrite the report file if it already exists?
 #' @return generates a HTML file containing enrichment plots.
 #' @keywords mitch report html markdown knitr
 #' @export
@@ -2096,29 +2111,36 @@ mitch_plots <- function(res, outfile = "Rplots.pdf") {
 #' @import knitr
 #' @importFrom rmarkdown render
 #' @import echarts4r
-mitch_report <- function(res, outfile) {
+mitch_report <- function(res, outfile , overwrite=FALSE) {
 
     df <- data.frame(dummy_x = seq(20), dummy_y = rnorm(20, 10, 3))
     trash<-df %>% 
         e_charts(dummy_x) %>% 
         e_scatter(dummy_y, symbol_size = 10)
 
-    DIRNAME <- dirname(outfile)
+    DIRNAME <- normalizePath(dirname(outfile))
     HTMLNAME <- paste( basename(outfile), ".html", sep = "")
-    HTMLNAME <- gsub(".html.html", ".html", HTMLNAME)
-    HTMLNAME <- paste(DIRNAME, HTMLNAME, sep = "/")
+    HTMLNAME <- gsub(".html.html$", ".html", HTMLNAME)
     
     if (file.exists(HTMLNAME)) {
-        stop("Error: the output HTML file aready exists.")
+        if (overwrite==FALSE) {
+            stop("Error: the output HTML file aready exists.")
+        } else {
+            message("Note: overwriting existing report")
+        }
+    }
+
+    if (!file.exists(DIRNAME)) {
+        stop("Error: the output folder does not exist.")
     }
     
     rmd_tmpdir <- tempdir()
     rmd_tmpfile <- paste(rmd_tmpdir, "/mitch.Rmd", sep = "")
     html_tmp <- paste(paste(rmd_tmpdir, "/mitch_report.html", sep = ""))
     
-    DATANAME <- gsub(".html$", ".RData", HTMLNAME)
+    DATANAME <- gsub(".html$", ".rds", HTMLNAME)
     DATANAME <- paste(rmd_tmpdir, "/", DATANAME, sep = "")
-    save.image(DATANAME)
+    saveRDS(res,DATANAME)
     MYMESSAGE = paste("Dataset saved as \"", DATANAME, "\".")
     message(MYMESSAGE)
     
@@ -2128,7 +2150,7 @@ mitch_report <- function(res, outfile) {
     
     rmd = system.file("mitch.Rmd", package = "mitch")
     rmarkdown::render(rmd, intermediates_dir = "." , output_file = html_tmp)
-    file.copy(html_tmp, HTMLNAME)
+    file.copy(html_tmp, outfile, overwrite=overwrite)
 }
 
 
