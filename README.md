@@ -86,3 +86,7 @@ Take a look at an [example plot set](https://github.com/markziemann/mitch_paper/
 This type of data is notoriously sparse.
 Mitch works best if there are >1000 genes detected in each cell type (contrast).
 If there are than 400 genes present it may cause mitch to run into an error in the MANOVA test due to insufficient degrees of freedom.
+
+## Citation
+Kaspi A, Ziemann M. mitch: multi-contrast pathway enrichment for multi-omics and single-cell profiling data. BMC Genomics. 2020 Jun 29;21(1):447. doi: 10.1186/s12864-020-06856-9. PMID: 32600408; PMCID: PMC7325150.
+
