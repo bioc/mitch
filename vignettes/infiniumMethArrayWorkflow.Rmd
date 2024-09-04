@@ -86,7 +86,8 @@ head(gt1)
 Update old gene symbols using HGNChelper (13% of 21k names).
 
 ```{r,genenames}
-new.hgnc.table <- getCurrentHumanMap()
+#new.hgnc.table <- getCurrentHumanMap()
+new.hgnc.table <- readRDS("../inst/extdata/new.hgnc.table.rds")
 fix <- checkGeneSymbols(gt1$gene,map=new.hgnc.table)
 fix2 <- fix[which(fix$x != fix$Suggested.Symbol),]
 length(unique(fix2$x))
