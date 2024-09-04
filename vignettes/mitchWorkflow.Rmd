@@ -1,5 +1,5 @@
 ---
-title: "mitch"
+title: "mitch Workflow"
 author: "Antony Kaspi & Mark Ziemann"
 date: "`r Sys.Date()`"
 output:
