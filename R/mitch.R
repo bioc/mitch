@@ -57,33 +57,33 @@ mapGeneIds <- function(y, z) {
         }
         
         if (col1 > col2) {
-            colnames(gt) = c("geneidentifiers", "GeneSymbol")
+            colnames(gt) <- c("geneidentifiers", "GeneSymbol")
             z <- merge(gt, z, by = "geneidentifiers")
-            z$geneidentifiers = NULL
+            z$geneidentifiers <- NULL
         } else {
-            colnames(gt) = c("GeneSymbol", "geneidentifiers")
+            colnames(gt) <- c("GeneSymbol", "geneidentifiers")
             z <- merge(gt, z, by = "geneidentifiers")
-            z$geneidentifiers = NULL
+            z$geneidentifiers <- NULL
         }
         z <- aggregate(. ~ GeneSymbol, z, function(x) {
             mean(as.numeric(as.character(x)))
         })
 
     }
-    colnames(z) = c("geneidentifiers", "y")
+    colnames(z) <- c("geneidentifiers", "y")
     z
 }
 
 
 edger_score <- function(y , geneIDcol = geneIDcol) {
     
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'PValue' and 'logFC' 
         are required ")
     }
     
-    PCOL = length(which(names(y) == "PValue"))
+    PCOL <- length(which(names(y) == "PValue"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'PValue' in the input")
     }
@@ -91,7 +91,7 @@ edger_score <- function(y , geneIDcol = geneIDcol) {
         stop("Error, there is no column named 'PValue' in the input")
     }
     
-    FCCOL = length(which(names(y) == "logFC"))
+    FCCOL <- length(which(names(y) == "logFC"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'logFC' in the input")
     }
@@ -115,7 +115,7 @@ edger_score <- function(y , geneIDcol = geneIDcol) {
 
 deseq2_score <- function(y , geneIDcol = geneIDcol ) {
 
-    ZCOL = length(which(names(y) == "stat"))
+    ZCOL <- length(which(names(y) == "stat"))
     if (ZCOL > 1) {
         stop("Error, there is more than 1 column named 'stat' in the input")
     }
@@ -139,13 +139,13 @@ deseq2_score <- function(y , geneIDcol = geneIDcol ) {
 
 absseq_score <- function(y, geneIDcol = geneIDcol ) {
     
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'pvalue' and 
         'foldChange' are required ")
     }
     
-    PCOL = length(which(names(y) == "pvalue"))
+    PCOL <- length(which(names(y) == "pvalue"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'pvalue' in the input")
     }
@@ -153,7 +153,7 @@ absseq_score <- function(y, geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'pvalue' in the input")
     }
     
-    FCCOL = length(which(names(y) == "foldChange"))
+    FCCOL <- length(which(names(y) == "foldChange"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'foldChange' in
         the input")
@@ -178,13 +178,13 @@ absseq_score <- function(y, geneIDcol = geneIDcol ) {
 
 sleuth_score <- function(y , geneIDcol = geneIDcol ) {
     
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'pval' and 'b'
         are required ")
     }
     
-    PCOL = length(which(names(y) == "pval"))
+    PCOL <- length(which(names(y) == "pval"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'pval' in the input")
     }
@@ -192,7 +192,7 @@ sleuth_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'pval' in the input")
     }
     
-    FCCOL = length(which(names(y) == "b"))
+    FCCOL <- length(which(names(y) == "b"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'b' in the input")
     }
@@ -216,7 +216,7 @@ sleuth_score <- function(y , geneIDcol = geneIDcol ) {
 
 topconfect_score <- function(y , geneIDcol = geneIDcol ) {
     
-    FCCOL = length(which(names(y) == "confect"))
+    FCCOL <- length(which(names(y) == "confect"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'confect' in the input")
     }
@@ -225,7 +225,7 @@ topconfect_score <- function(y , geneIDcol = geneIDcol ) {
     }
     
     # better to get the sign of fold change from the effect column
-    FCCOL = length(which(names(y) == "effect"))
+    FCCOL <- length(which(names(y) == "effect"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'effect' in the input")
     }
@@ -257,13 +257,13 @@ topconfect_score <- function(y , geneIDcol = geneIDcol ) {
 
 ballgown_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'pval' and 'fc' are
         required ")
     }
 
-    PCOL = length(which(names(y) == "pval"))
+    PCOL <- length(which(names(y) == "pval"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'pval' in the input")
     }
@@ -271,7 +271,7 @@ ballgown_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'pval' in the input")
     }
 
-    FCCOL = length(which(names(y) == "fc"))
+    FCCOL <- length(which(names(y) == "fc"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'fc' in the input")
     }
@@ -295,7 +295,7 @@ ballgown_score <- function(y , geneIDcol = geneIDcol ) {
 
 noiseq_score <- function(y , geneIDcol = geneIDcol ) {
 
-    ZCOL = length(which(names(y) == "ranking"))
+    ZCOL <- length(which(names(y) == "ranking"))
     if (ZCOL > 1) {
         stop("Error, there is more than 1 column named 'ranking' in the input")
     }
@@ -319,13 +319,13 @@ noiseq_score <- function(y , geneIDcol = geneIDcol ) {
 
 tcc_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'p.value' and 'm.value'
         are required ")
     }
 
-    PCOL = length(which(names(y) == "p.value"))
+    PCOL <- length(which(names(y) == "p.value"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'p.value' in the input")
     }
@@ -333,7 +333,7 @@ tcc_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'p.value' in the input")
     }
 
-    FCCOL = length(which(names(y) == "m.value"))
+    FCCOL <- length(which(names(y) == "m.value"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'm.value' in the input")
     }
@@ -357,7 +357,7 @@ tcc_score <- function(y , geneIDcol = geneIDcol ) {
 
 deds_score <- function(y , geneIDcol = geneIDcol ) {
 
-    ZCOL = length(which(names(y) == "t"))
+    ZCOL <- length(which(names(y) == "t"))
     if (ZCOL > 1) {
         stop("Error, there is more than 1 column named 't' in the input")
     }
@@ -381,7 +381,7 @@ deds_score <- function(y , geneIDcol = geneIDcol ) {
 
 cuffdiff_score <- function(y , geneIDcol = geneIDcol ) {
 
-    ZCOL = length(which(names(y) == "test_stat"))
+    ZCOL <- length(which(names(y) == "test_stat"))
     if (ZCOL > 1) {
         stop("Error, there is more than 1 column named 'test_stat' in the
         input")
@@ -407,13 +407,13 @@ cuffdiff_score <- function(y , geneIDcol = geneIDcol ) {
 seurat_score <- function(y , geneIDcol = geneIDcol ) {
 
     colnames(y) <- gsub("avg_log2FC","avg_logFC",colnames(y))
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'p_val' and 'avg_logFC'
         are required ")
     }
     
-    PCOL = length(which(names(y) == "p_val"))
+    PCOL <- length(which(names(y) == "p_val"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'p_val' in the input")
     }
@@ -421,7 +421,7 @@ seurat_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'p_val' in the input")
     }
     
-    FCCOL = length(which(names(y) == "avg_logFC"))
+    FCCOL <- length(which(names(y) == "avg_logFC"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'avg_logFC' in the
         input")
@@ -449,13 +449,13 @@ seurat_score <- function(y , geneIDcol = geneIDcol ) {
 
 muscat_score <- function(y , geneIDcol = geneIDcol ) {
     
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'p_val' and 'logFC'
         are required ")
     }
     
-    PCOL = length(which(names(y) == "p_val"))
+    PCOL <- length(which(names(y) == "p_val"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'p_val' in the input")
     }
@@ -463,7 +463,7 @@ muscat_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'p_val' in the input")
     }
     
-    FCCOL = length(which(names(y) == "logFC"))
+    FCCOL <- length(which(names(y) == "logFC"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'logFC' in the input")
     }
@@ -486,7 +486,7 @@ muscat_score <- function(y , geneIDcol = geneIDcol ) {
 
 scde_score <- function(y , geneIDcol = geneIDcol ) {
 
-    ZCOL = length(which(names(y) == "Z"))
+    ZCOL <- length(which(names(y) == "Z"))
     if (ZCOL > 1) {
         stop("Error, there is more than 1 column named 'Z' in the input")
     }
@@ -510,13 +510,13 @@ scde_score <- function(y , geneIDcol = geneIDcol ) {
 
 mast_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'Pr(>Chisq)' and 'coef'
         are required ")
     }
 
-    PCOL = length(which(names(y) == "Pr(>Chisq)"))
+    PCOL <- length(which(names(y) == "Pr(>Chisq)"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'Pr(>Chisq)' in the
         input")
@@ -525,7 +525,7 @@ mast_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'Pr(>Chisq)' in the input")
     }
 
-    FCCOL = length(which(names(y) == "coef"))
+    FCCOL <- length(which(names(y) == "coef"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'coef' in the input")
     }
@@ -552,13 +552,13 @@ mast_score <- function(y , geneIDcol = geneIDcol ) {
 
 desingle_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'pvalue' and 
         'foldChange' are required ")
     }
 
-    PCOL = length(which(names(y) == "pvalue"))
+    PCOL <- length(which(names(y) == "pvalue"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'pvalue' in the input")
     }
@@ -566,7 +566,7 @@ desingle_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'pvalue' in the input")
     }
 
-    FCCOL = length(which(names(y) == "foldChange"))
+    FCCOL <- length(which(names(y) == "foldChange"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'foldChange' in the
         input")
@@ -591,13 +591,13 @@ desingle_score <- function(y , geneIDcol = geneIDcol ) {
 
 dmrcate_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'Stouffer' and 
         'meanbetafc' are required ")
     }
 
-    PCOL = length(which(names(y) == "Stouffer"))
+    PCOL <- length(which(names(y) == "Stouffer"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'Stouffer' in the
         input")
@@ -606,7 +606,7 @@ dmrcate_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'Stouffer' in the input")
     }
 
-    FCCOL = length(which(names(y) == "meanbetafc"))
+    FCCOL <- length(which(names(y) == "meanbetafc"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'meanbetafc' in the
         input")
@@ -632,13 +632,13 @@ dmrcate_score <- function(y , geneIDcol = geneIDcol ) {
 
 dep_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, '*p.val' and '*ratio' 
         are required ")
     }
 
-    PCOL = length(grep("p.val",names(y)))
+    PCOL <- length(grep("p.val",names(y)))
     if (PCOL > 1) {
         message("Note, using the leftmost column with '*p.val' in the name")
     }
@@ -646,7 +646,7 @@ dep_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named '*p.val' in the input")
     }
 
-    FCCOL = length(grep("ratio",names(y)))
+    FCCOL <- length(grep("ratio",names(y)))
     if (FCCOL > 1) {
         message("Note, using the leftmost column with 'ratio' in the name")
     }
@@ -654,9 +654,9 @@ dep_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'ratio' in the input")
     }
 
-    PCOL = grep("p.val",names(y))[1]
+    PCOL <- grep("p.val",names(y))[1]
 
-    FCCOL = grep("ratio",names(y))[1]
+    FCCOL <- grep("ratio",names(y))[1]
 
     s <- sign(y[,FCCOL]) * -log10(y[,PCOL])
 
@@ -674,13 +674,13 @@ dep_score <- function(y , geneIDcol = geneIDcol ) {
 
 msmstests_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'p.value' and 'LogFC'
         are required ")
     }
 
-    PCOL = length(which(names(y) == "p.value"))
+    PCOL <- length(which(names(y) == "p.value"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'p.value' in the input")
     }
@@ -688,7 +688,7 @@ msmstests_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'p.value' in the input")
     }
 
-    FCCOL = length(which(names(y) == "LogFC"))
+    FCCOL <- length(which(names(y) == "LogFC"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'LogFC' in the input")
     }
@@ -712,13 +712,13 @@ msmstests_score <- function(y , geneIDcol = geneIDcol ) {
 
 plgem_score <- function(y , geneIDcol = geneIDcol ) {
 
-    LEN = length(y)
+    LEN <- length(y)
     if (LEN < 2) {
         stop("Error: there are <2 items in the input list, '$p.value' and
         '$PLGEM.STN' are required")
     }
 
-    PCOL = length(which(names(y) == "p.value"))
+    PCOL <- length(which(names(y) == "p.value"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 item in the list named 'p.value'")
     }
@@ -726,7 +726,7 @@ plgem_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no item in the list named 'p.value'")
     }
 
-    FCCOL = length(which(names(y) == "PLGEM.STN"))
+    FCCOL <- length(which(names(y) == "PLGEM.STN"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'PLGEM.STN' in the
         input")
@@ -746,13 +746,13 @@ plgem_score <- function(y , geneIDcol = geneIDcol ) {
 
 sdams_score <- function(y , geneIDcol = geneIDcol ) {
 
-    LEN = length(y)
+    LEN <- length(y)
     if (LEN < 2) {
         stop("Error: there are <2 items in the input list, '$pv_2part' and
         '$beta' are required")
     }
 
-    PCOL = length(which(names(y) == "pv_2part"))
+    PCOL <- length(which(names(y) == "pv_2part"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 item in the list named 'pv_2part'")
     }
@@ -760,7 +760,7 @@ sdams_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no item in the list named 'pv_2part'")
     }
 
-    FCCOL = length(which(names(y) == "beta"))
+    FCCOL <- length(which(names(y) == "beta"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'beta' in the input")
     }
@@ -779,13 +779,13 @@ sdams_score <- function(y , geneIDcol = geneIDcol ) {
 
 diffbind_score <- function(y , geneIDcol = geneIDcol ) {
 
-    NCOL = ncol(y)
+    NCOL <- ncol(y)
     if (NCOL < 2) {
         stop("Error: there are <2 columns in the input, 'p.value' and 'Fold'
         are required ")
     }
 
-    PCOL = length(which(names(y) == "p.value"))
+    PCOL <- length(which(names(y) == "p.value"))
     if (PCOL > 1) {
         stop("Error, there is more than 1 column named 'p.value' in the input")
     }
@@ -793,7 +793,7 @@ diffbind_score <- function(y , geneIDcol = geneIDcol ) {
         stop("Error, there is no column named 'p.value' in the input")
     }
 
-    FCCOL = length(which(names(y) == "Fold"))
+    FCCOL <- length(which(names(y) == "Fold"))
     if (FCCOL > 1) {
         stop("Error, there is more than 1 column named 'Fold' in the input")
     }
@@ -819,7 +819,7 @@ diffbind_score <- function(y , geneIDcol = geneIDcol ) {
 preranked_score <- function(y, joinType , geneIDcol ) {
 
     if (!is.null(attributes(y)$geneIDcol)) {
-        NCOL = ncol(y)
+        NCOL <- ncol(y)
         if (NCOL > 2) {
             stop("Error: there are >2 columns in the input. Your files need to 
             have only the gene ID and rank stat ")
@@ -827,7 +827,7 @@ preranked_score <- function(y, joinType , geneIDcol ) {
         g <- y[, attributes(y)$geneIDcol]
         s <- y[ , !(names(y) %in% geneIDcol)]
     } else {
-        NCOL = ncol(y)
+        NCOL <- ncol(y)
         if (NCOL > 1) {
             stop("Error: there are >1 columns in the input. Should only contain
             the gene ID and rank stat ")
@@ -887,7 +887,7 @@ mitch_import <- function(x, DEtype, geneIDcol = NULL, geneTable = NULL,
     if (is.data.frame(x)) {
         message("The input is a single dataframe; one contrast only. Converting
         it to a list for you.")
-        NAME = deparse(substitute(x))
+        NAME <- deparse(substitute(x))
         x <- list(x = x)
     }
     
@@ -914,7 +914,7 @@ mitch_import <- function(x, DEtype, geneIDcol = NULL, geneTable = NULL,
     # the geneIDcol should be an attribute added to each list item
     for (i in seq_len(length(x))) {
         if (!is.null(geneIDcol)) {
-            LEN = length(which(names(x[[i]]) %in% geneIDcol))
+            LEN <- length(which(names(x[[i]]) %in% geneIDcol))
             if (LEN < 1) {
                 stop("Error: the specified geneIDcol doesn't seem to exist")
             }
@@ -937,9 +937,9 @@ mitch_import <- function(x, DEtype, geneIDcol = NULL, geneTable = NULL,
         }
     }
     
-    DEtype = tolower(DEtype)
+    DEtype <- tolower(DEtype)
     
-    validDEtype = c("edger", "deseq2", "limma", "absseq", "sleuth", "seurat",
+    validDEtype <- c("edger", "deseq2", "limma", "absseq", "sleuth", "seurat",
         "topconfects", "muscat", "swish", "scde", "mast", "desingle",
         "ballgown", "noiseq", "tcc", "deds", "cuffdiff", "preranked", 
         "prescored","fishpond", "missmethyl", "dmrcate", "dep", "msmstests",
@@ -1012,18 +1012,18 @@ mitch_import <- function(x, DEtype, geneIDcol = NULL, geneTable = NULL,
         xxx <- join_all(xx, by = "geneidentifiers", type = joinType)
     }
     rownames(xxx) <- xxx$geneidentifiers
-    xxx$geneidentifiers = NULL
+    xxx$geneidentifiers <- NULL
     colnames(xxx) <- names(x)
     
-    STARTSWITHNUM = length(grep("^[0-9]", colnames(xxx)))
+    STARTSWITHNUM <- length(grep("^[0-9]", colnames(xxx)))
     if (STARTSWITHNUM > 0) {
         stop("Error: it looks like one or more column names starts with a
         number. This is incompatible with downstream analysis. Please modify")
     }
     
-    MEAN_N_GENES_IN = mean(unlist(lapply(x, nrow)))
-    N_GENES_OUT = nrow(xxx)
-    PROP = signif(N_GENES_OUT/MEAN_N_GENES_IN, 3)
+    MEAN_N_GENES_IN <- mean(unlist(lapply(x, nrow)))
+    N_GENES_OUT <- nrow(xxx)
+    PROP <- signif(N_GENES_OUT/MEAN_N_GENES_IN, 3)
     message(paste("Note: Mean no. genes in input =", MEAN_N_GENES_IN))
     message(paste("Note: no. genes in output =", N_GENES_OUT))
     if (PROP < 0.05) {
@@ -1066,7 +1066,7 @@ gmt_import <- function(gmtfile) {
 MANOVA <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1,
     priority = NULL) {
     
-    STARTSWITHNUM = length(grep("^[0-9]", colnames(x)))
+    STARTSWITHNUM <- length(grep("^[0-9]", colnames(x)))
     if (STARTSWITHNUM > 0) {
         stop("Error: it looks like one or more column names starts with a
         number. This is incompatible with downstream analysis. Please modify")
@@ -1075,7 +1075,7 @@ MANOVA <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1,
     sets <- names(genesets)
     
     if (is.null(priority)) {
-        priority = "significance"
+        priority <- "significance"
     }
     
     if (priority !="significance" && priority !="effect" && priority !="SD"){
@@ -1088,13 +1088,13 @@ MANOVA <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1,
     }
     
     # calculate the hypotenuse for downstream use
-    HYPOT = hypotenuse(apply(x, 2, length))
+    HYPOT <- hypotenuse(apply(x, 2, length))
     
     res <- mclapply(sets, function(set) {
         
         inset <- rownames(x) %in% as.character(unlist(genesets[set]))
         
-        NROW = nrow(x)
+        NROW <- nrow(x)
         
         if (length(which(inset)) >= minsetsize) {
             fit <- manova(x ~ inset)
@@ -1112,9 +1112,9 @@ MANOVA <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1,
             names(scord) <- paste0("s-", names(scord))
             # calculate the hypotenuse length of s scores
             s.dist <- hypotenuse(scord)
-            names(s.dist) = "s.dist"
-            mysd = sd(scord)
-            names(mysd) = "SD"
+            names(s.dist) <- "s.dist"
+            mysd <- sd(scord)
+            names(mysd) <- "SD"
             
             return(data.frame(set, setSize = sum(inset), pMANOVA, t(scord), 
                 t(raov),t(s.dist), t(mysd), stringsAsFactors = FALSE))
@@ -1158,7 +1158,7 @@ MANOVA <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1,
 ANOVA <- function(x, genesets, minsetsize = 10, cores = detectCores() - 1, 
 priority = NULL) {
     
-    STARTSWITHNUM = length(grep("^[0-9]", colnames(x)))
+    STARTSWITHNUM <- length(grep("^[0-9]", colnames(x)))
     if (STARTSWITHNUM > 0) {
         stop("Error: it looks like one or more column names starts with a
         number. This is incompatible with downstream analysis. Please modify")
@@ -1167,7 +1167,7 @@ priority = NULL) {
     sets <- names(genesets)
     
     if (is.null(priority)) {
-        priority = "significance"
+        priority <- "significance"
     }
     
     if (priority != "significance" && priority != "effect") {
@@ -1175,7 +1175,7 @@ priority = NULL) {
         (default) or 'effect'.")
     }
 
-    x<-x[which(!is.na(x)),,drop=FALSE]
+    x <- x[which(!is.na(x)),,drop=FALSE]
     
     res <- mclapply(sets, function(set) {
         resample <- function(x, set) {
@@ -1187,7 +1187,7 @@ priority = NULL) {
         
         inset <- rownames(x) %in% as.character(unlist(genesets[set]))
         
-        NROW = nrow(x)
+        NROW <- nrow(x)
         
         if (length(which(inset)) >= minsetsize) {
             fit <- aov(x[, 1] ~ inset)
@@ -1231,49 +1231,49 @@ mitch_metrics_calc<-function(x, genesets, enrichment_result, minsetsize = 10) {
     
     if (!is.null(enrichment_result)) {
         
-        num_genesets = length(genesets)
+        num_genesets <- length(genesets)
         included_genesets <- nrow(enrichment_result)
         geneset_counts <- as.data.frame(as.vector(unlist(lapply(genesets, 
         function(set) {
             length(which(as.vector(unlist(set)) %in% rownames(x)))
         }))))
         rownames(geneset_counts) <- names(genesets)
-        colnames(geneset_counts) = "count"
-        genesets_excluded=
+        colnames(geneset_counts) <- "count"
+        genesets_excluded <-
             names(genesets)[which(geneset_counts$count<minsetsize)]
-        genesets_included=
+        genesets_included <-
             names(genesets)[which(geneset_counts$count>=minsetsize)]
-        num_genesets_excluded = length(genesets_excluded)
-        num_genesets_included = length(genesets_included)
-        num_genes_in_genesets = length(unique(as.vector(unlist(genesets))))
-        num_genes_in_profile = length(unique(rownames(x)))
-        duplicated_genes_present = length(rownames(x)) > num_genes_in_profile
-        num_profile_genes_in_sets=length(which(rownames(x) %in% 
+        num_genesets_excluded <- length(genesets_excluded)
+        num_genesets_included <- length(genesets_included)
+        num_genes_in_genesets <- length(unique(as.vector(unlist(genesets))))
+        num_genes_in_profile <- length(unique(rownames(x)))
+        duplicated_genes_present <- length(rownames(x)) > num_genes_in_profile
+        num_profile_genes_in_sets <- length(which(rownames(x) %in% 
         as.vector(unlist(genesets))))
-        num_profile_genes_not_in_sets = num_genes_in_profile - 
+        num_profile_genes_not_in_sets <- num_genes_in_profile - 
         num_profile_genes_in_sets
-        num_sets_significant = 
+        num_sets_significant <- 
             nrow(enrichment_result[which(enrichment_result$p.adjustMANOVA < 
             0.05), ])
-        profile_pearson_correl = cor(x, method = "p")[2, 1]
-        profile_spearman_correl = cor(x, method = "s")[2, 1]
+        profile_pearson_correl <- cor(x, method = "p")[2, 1]
+        profile_spearman_correl <- cor(x, method = "s")[2, 1]
         
         # genes in each quadrant
-        g1 = length(which(x[, 1] > 0 & x[, 2] > 0))
-        g2 = length(which(x[, 1] > 0 & x[, 2] < 0))
-        g3 = length(which(x[, 1] < 0 & x[, 2] < 0))
-        g2 = length(which(x[, 1] < 0 & x[, 2] > 0))
+        g1 <- length(which(x[, 1] > 0 & x[, 2] > 0))
+        g2 <- length(which(x[, 1] > 0 & x[, 2] < 0))
+        g3 <- length(which(x[, 1] < 0 & x[, 2] < 0))
+        g2 <- length(which(x[, 1] < 0 & x[, 2] > 0))
         
         # genesets in each quadrant
-        ns1 = nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 &
+        ns1 <- nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 &
             enrichment_result[,4] > 0 & enrichment_result[, 5] > 0))
-        ns2 = nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 & 
+        ns2 <- nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 & 
             enrichment_result[,4] > 0 & enrichment_result[, 5] < 0))
-        ns3 = nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 &
+        ns3 <- nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 &
             enrichment_result[,4] < 0 & enrichment_result[, 5] < 0))
-        ns4 = nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 &
+        ns4 <- nrow(subset(enrichment_result, p.adjustMANOVA < 0.05 &
             enrichment_result[,4] < 0 & enrichment_result[, 5] > 0))
-        num_sets_significant_by_quadrant = paste(ns1, ns2, ns3, ns4, sep = ",")
+        num_sets_significant_by_quadrant <- paste(ns1, ns2, ns3, ns4, sep = ",")
         
         dat <- list(num_genesets = num_genesets, 
             num_genes_in_profile = num_genes_in_profile, 
@@ -1298,37 +1298,37 @@ mitch_metrics_calc1d <- function(x, genesets, anova_result, minsetsize = 10) {
     
     if (!is.null(anova_result)) {
         
-        num_genesets = length(genesets)
+        num_genesets <- length(genesets)
         included_genesets <- nrow(anova_result)
         geneset_counts <- as.data.frame(as.vector(unlist(lapply(genesets,
             function(set) {
             length(which(as.vector(unlist(set)) %in% rownames(x)))
         }))))
         rownames(geneset_counts) <- names(genesets)
-        colnames(geneset_counts) = "count"
-        genesets_excluded=
+        colnames(geneset_counts) <- "count"
+        genesets_excluded <-
             names(genesets)[which(geneset_counts$count<minsetsize)]
-        genesets_included=
+        genesets_included <-
             names(genesets)[which(geneset_counts$count >= minsetsize)]
-        num_genesets_excluded = length(genesets_excluded)
-        num_genesets_included = length(genesets_included)
-        num_genes_in_genesets = length(unique(as.vector(unlist(genesets))))
-        num_genes_in_profile = length(unique(rownames(x)))
-        duplicated_genes_present = length(rownames(x)) > num_genes_in_profile
-        num_profile_genes_in_sets = length(which(rownames(x) %in% 
+        num_genesets_excluded <- length(genesets_excluded)
+        num_genesets_included <- length(genesets_included)
+        num_genes_in_genesets <- length(unique(as.vector(unlist(genesets))))
+        num_genes_in_profile <- length(unique(rownames(x)))
+        duplicated_genes_present <- length(rownames(x)) > num_genes_in_profile
+        num_profile_genes_in_sets <- length(which(rownames(x) %in% 
             as.vector(unlist(genesets))))
-        num_profile_genes_not_in_sets=num_genes_in_profile-num_profile_genes_in_sets
-        num_sets_significant=
+        num_profile_genes_not_in_sets <- num_genes_in_profile-num_profile_genes_in_sets
+        num_sets_significant <-
             nrow(anova_result[which(anova_result$p.adjustANOVA<0.05),])
         
         # genes up and down
-        g1 = length(which(x[, 1] > 0))
-        g2 = length(which(x[, 1] < 0))
+        g1 <- length(which(x[, 1] > 0))
+        g2 <- length(which(x[, 1] < 0))
         
         # genesets in each quadrant
-        num_sets_up = nrow(subset(anova_result, p.adjustANOVA < 0.05 &
+        num_sets_up <- nrow(subset(anova_result, p.adjustANOVA < 0.05 &
             anova_result[,4] > 0))
-        num_sets_dn = nrow(subset(anova_result, p.adjustANOVA < 0.05 &
+        num_sets_dn <- nrow(subset(anova_result, p.adjustANOVA < 0.05 &
             anova_result[,4] < 0))
         
         dat <- list(num_genesets = num_genesets,
@@ -1353,8 +1353,8 @@ mitch_metrics_calc1d <- function(x, genesets, anova_result, minsetsize = 10) {
 mitch_rank <- function(x) {
     
     for (i in seq_len(ncol(x))) {
-        LEN = length(x[, i])
-        UNIQLEN = length(unique(x[, i]))
+        LEN <- length(x[, i])
+        UNIQLEN <- length(unique(x[, i]))
         if (UNIQLEN/LEN < 0.4) {
             warning("Warning: >60% of genes have the same score. This isn't
             optimal for rank based enrichment analysis.")
@@ -1363,9 +1363,9 @@ mitch_rank <- function(x) {
     
     rank_adj <- function(x) {
         xx <- rank(x,na.last = "keep")
-        num_neg = length(which(x < 0))
-        num_zero = length(which(x == 0))
-        num_adj = num_neg + (num_zero/2)
+        num_neg <- length(which(x < 0))
+        num_zero <- length(which(x == 0))
+        num_adj <- num_neg + (num_zero/2)
         adj <- xx - num_adj
         adj
     }
@@ -1457,7 +1457,7 @@ mitch_calc <- function(x, genesets, minsetsize = 10, cores = 1,
     input_profile <- x
     input_genesets <- genesets
     ranked_profile <- mitch_rank(input_profile)
-    if (get_os() == "windows") { cores=1 }
+    if (get_os() == "windows") { cores <- 1 }
     
     if ( ncol(x)>69 ) {
         stop("Error: mitch is currently limited to 69 dimensions or fewer.")
@@ -1473,7 +1473,7 @@ mitch_calc <- function(x, genesets, minsetsize = 10, cores = 1,
         }
 
         enrichment_result <- MANOVA(ranked_profile, genesets, 
-            minsetsize = minsetsize, cores = cores, priority = priority)
+            minsetsize <- minsetsize, cores = cores, priority = priority)
         
         if (!is.null(enrichment_result)) {
             mitch_metrics <- mitch_metrics_calc(x, genesets, enrichment_result)
@@ -1493,7 +1493,7 @@ mitch_calc <- function(x, genesets, minsetsize = 10, cores = 1,
     } else if (ncol(x) == 1) {
         
         enrichment_result <- ANOVA(ranked_profile, genesets,
-            minsetsize = minsetsize, cores = cores, priority = priority)
+            minsetsize <- minsetsize, cores = cores, priority = priority)
         
         if (!is.null(enrichment_result)) {
             mitch_metrics <- mitch_metrics_calc1d(x, genesets,
@@ -1522,9 +1522,9 @@ plot1d_profile_dist <- function(res) {
     plot(res$input_profile, xlab = paste("DE score for ",
         colnames(res$input_profile)), 
         pch = "|", frame.plot = FALSE)
-    UPS = length(which(res$input_profile > 0))
-    DNS = length(which(res$input_profile < 0))
-    TOTAL = nrow(res$input_profile)
+    UPS <- length(which(res$input_profile > 0))
+    DNS <- length(which(res$input_profile < 0))
+    TOTAL <- nrow(res$input_profile)
     mtext(paste(TOTAL, "genes in total,", UPS, "trending up-regulated,", 
     DNS, "trending down-regulated"))
     pl <- recordPlot()
@@ -1549,16 +1549,15 @@ plot1d_volcano <- function(res) {
     par(mfrow = c(1, 1))
     sig <- subset(res$enrichment_result, p.adjustANOVA <= 0.05)
     plot(res$enrichment_result$s.dist, -log10(res$enrichment_result$pANOVA),
-    xlab = "s score", 
-        ylab = "-log10(p-value)",
+        xlab = "s score", ylab = "-log10(p-value)",
         main = "volcano plot of gene set enrichments",
         pch = 19, cex = 0.8)
     points(sig$s.dist, -log10(sig$pANOVA), pch = 19, cex = 0.85, col = "red")
-    TOTAL = nrow(res$enrichment_result)
-    SIG = nrow(sig)
-    UP = length(which(sig$s.dist > 0))
-    DN = length(which(sig$s.dist < 0))
-    SUBHEADER = paste(TOTAL, "gene sets in total,", UP, "upregulated and ",
+    TOTAL <- nrow(res$enrichment_result)
+    SIG <- nrow(sig)
+    UP <- length(which(sig$s.dist > 0))
+    DN <- length(which(sig$s.dist < 0))
+    SUBHEADER <- paste(TOTAL, "gene sets in total,", UP, "upregulated and ",
         DN, "downregulated (FDR<=0.05)")
     mtext(SUBHEADER)
     pl <- recordPlot()
@@ -1607,14 +1606,14 @@ plot2d_profile_density <- function(res) {
         "darkred", "black"))
     
     ss <- res$ranked_profile
-    xmin = min(ss[, 1])
-    xmax = max(ss[, 1])
-    ymin = min(ss[, 2])
-    ymax = max(ss[, 2])
+    xmin <- min(ss[, 1])
+    xmax <- max(ss[, 1])
+    ymin <- min(ss[, 2])
+    ymax <- max(ss[, 2])
     
     k <- MASS::kde2d(ss[, 1], ss[, 2])
-    X_AXIS = paste("Rank in contrast", colnames(ss)[1])
-    Y_AXIS = paste("Rank in contrast", colnames(ss)[2])
+    X_AXIS <- paste("Rank in contrast", colnames(ss)[1])
+    Y_AXIS <- paste("Rank in contrast", colnames(ss)[2])
     
     filled.contour(k, xlim = c(xmin, xmax), ylim = c(ymin, ymax), 
         color.palette = palette, plot.title = {
@@ -1627,15 +1626,15 @@ plot2d_profile_density <- function(res) {
 }
 
 plot2d_gene_quadrant_barchart <- function(res) {
-    uu = length(which(res$input_profile[, 1] > 0 & res$input_profile[, 2] > 0))
-    ud = length(which(res$input_profile[, 1] > 0 & res$input_profile[, 2] < 0))
-    dd = length(which(res$input_profile[, 1] < 0 & res$input_profile[, 2] < 0))
-    du = length(which(res$input_profile[, 1] < 0 & res$input_profile[, 2] > 0))
+    uu <- length(which(res$input_profile[, 1] > 0 & res$input_profile[, 2] > 0))
+    ud <- length(which(res$input_profile[, 1] > 0 & res$input_profile[, 2] < 0))
+    dd <- length(which(res$input_profile[, 1] < 0 & res$input_profile[, 2] < 0))
+    du <- length(which(res$input_profile[, 1] < 0 & res$input_profile[, 2] > 0))
     a <- as.data.frame(c(uu, ud, dd, du))
-    rownames(a) = c("top-right", "bottom-right", "bottom-left", "top-left")
-    colnames(a) = "a"
+    rownames(a) <- c("top-right", "bottom-right", "bottom-left", "top-left")
+    colnames(a) <- "a"
     barplot(a$a, names.arg = rownames(a), 
-    main = "number of genes in each quadrant")
+    main <- "number of genes in each quadrant")
     pl <- recordPlot()
     pl
 }
@@ -1645,8 +1644,8 @@ plot2d_set_quadrant_barchart <- function(res) {
     a <- res$analysis_metrics[14]
     a <- as.data.frame(as.numeric(unlist(strsplit(as.character(a), ","))), 
     stringsAsFactors = FALSE)
-    rownames(a) = c("top-right", "bottom-right", "bottom-left", "top-left")
-    colnames(a) = "a"
+    rownames(a) <- c("top-right", "bottom-right", "bottom-left", "top-left")
+    colnames(a) <- "a"
     barplot(a$a, names.arg = rownames(a), main = "number of genesets FDR<0.05")
     pl <- recordPlot()
     pl
@@ -1666,7 +1665,7 @@ plot2d_set_scatter <- function(res) {
 }
 
 plot2d_set_scatter_top <- function(res) {
-    resrows = length(res$detailed_sets)
+    resrows <- length(res$detailed_sets)
     top <- head(res$enrichment_result, resrows)
     plot(res$enrichment_result[, 4:5], pch = 19, col = rgb(red = 0, green = 0,
         blue = 0, alpha = 0.2),
@@ -1680,9 +1679,9 @@ plot2d_set_scatter_top <- function(res) {
 }
 
 plot2d_heatmap <- function(res) {
-    d = ncol(res$input_profile)
-    resrows = length(res$detailed_sets)
-    pl = NULL
+    d <- ncol(res$input_profile)
+    resrows <- length(res$detailed_sets)
+    pl <- NULL
     if (resrows > 2) {
         hmapx <- head(res$enrichment_result[, 4:(4 + d - 1)], resrows)
         rownames(hmapx) <- head(res$enrichment_result$set, resrows)
@@ -1712,15 +1711,15 @@ plot2d_detailed_density <- function(res, i) {
     palette <- colorRampPalette(c("white", "yellow", "orange", "red",
         "darkred", "black"))
     ss <- res$ranked_profile
-    xmin = min(ss[, 1])
-    xmax = max(ss[, 1])
-    ymin = min(ss[, 2])
-    ymax = max(ss[, 2])
+    xmin <- min(ss[, 1])
+    xmax <- max(ss[, 1])
+    ymin <- min(ss[, 2])
+    ymax <- max(ss[, 2])
     ll <- res$enrichment_result[i, ]
     size <- ll$setSize
     sss <- res$detailed_sets[[i]]
-    X_AXIS = paste("Rank in contrast", colnames(ss)[1])
-    Y_AXIS = paste("Rank in contrast", colnames(ss)[2])
+    X_AXIS <- paste("Rank in contrast", colnames(ss)[1])
+    Y_AXIS <- paste("Rank in contrast", colnames(ss)[2])
     par(mar = c(5, 4, 4, 2))
     k <- MASS::kde2d(sss[, 1], sss[, 2])
     filled.contour(k, color.palette = palette, xlim = c(xmin, xmax),
@@ -1735,13 +1734,13 @@ plot2d_detailed_density <- function(res, i) {
 
 plot2d_detailed_scatter <- function(res, i) {
     ss <- res$ranked_profile
-    xmin = min(ss[, 1])
-    xmax = max(ss[, 1])
-    ymin = min(ss[, 2])
-    ymax = max(ss[, 2])
+    xmin <- min(ss[, 1])
+    xmax <- max(ss[, 1])
+    ymin <- min(ss[, 2])
+    ymax <- max(ss[, 2])
     sss <- res$detailed_sets[[i]]
-    X_AXIS = paste("Rank in contrast", colnames(ss)[1])
-    Y_AXIS = paste("Rank in contrast", colnames(ss)[2])
+    X_AXIS <- paste("Rank in contrast", colnames(ss)[1])
+    Y_AXIS <- paste("Rank in contrast", colnames(ss)[2])
     ll <- res$enrichment_result[i, ]
     plot(sss, pch = 19, col = rgb(red = 0, green = 0, blue = 0, alpha = 0.2),
         main = ll$set, xlim = c(xmin, xmax), ylim = c(ymin, ymax), 
@@ -1756,15 +1755,15 @@ plot2d_detailed_violin <- function(res, i) {
     pl <- list()
     
     ss <- res$ranked_profile
-    xmin = min(ss[, 1])
-    xmax = max(ss[, 1])
-    ymin = min(ss[, 2])
-    ymax = max(ss[, 2])
+    xmin <- min(ss[, 1])
+    xmax <- max(ss[, 1])
+    ymin <- min(ss[, 2])
+    ymax <- max(ss[, 2])
     ll <- res$enrichment_result[i, ]
     size <- ll$setSize
     sss <- res$detailed_sets[[i]]
-    X_AXIS = paste("Rank in contrast", colnames(ss)[1])
-    Y_AXIS = paste("Rank in contrast", colnames(ss)[2])
+    X_AXIS <- paste("Rank in contrast", colnames(ss)[1])
+    Y_AXIS <- paste("Rank in contrast", colnames(ss)[2])
     ss_long <- melt(ss)
     colnames(ss_long) <- c("gene","contrast","value")
     sss_long <- melt(sss)
@@ -1900,7 +1899,7 @@ geneset_sector_table <- function(res) {
 
 heatmapx <- function(res) {
     d <- ncol(res$ranked_profile)
-    resrows = length(res$detailed_sets)
+    resrows <- length(res$detailed_sets)
     hmapx <- head(res$enrichment_result[, 4:(4 + d - 1)], resrows)
     rownames(hmapx) <- head(res$enrichment_result$set, resrows)
     colnames(hmapx) <- gsub("^s.", "", colnames(hmapx))
@@ -2046,8 +2045,8 @@ colnames(sss_long) <- c("gene","contrast","value")
 #' @importFrom MASS kde2d
 mitch_plots <- function(res, outfile = "Rplots.pdf") {
     
-    resrows = length(res$detailed_sets)
-    d = ncol(res$ranked_profile)
+    resrows <- length(res$detailed_sets)
+    d <- ncol(res$ranked_profile)
     pdf(outfile)
     
     if ( d>20 ) {
@@ -2156,14 +2155,14 @@ mitch_report <- function(res, outfile , overwrite=FALSE) {
     DATANAME <- gsub(".html$", ".rds", HTMLNAME)
     DATANAME <- paste(rmd_tmpdir, "/", DATANAME, sep = "")
     saveRDS(res,DATANAME)
-    MYMESSAGE = paste("Dataset saved as \"", DATANAME, "\".")
+    MYMESSAGE <- paste("Dataset saved as \"", DATANAME, "\".")
     message(MYMESSAGE)
     
     knitrenv <- new.env()
     assign("DATANAME", DATANAME, knitrenv)
     assign("res", res, knitrenv)
     
-    rmd = system.file("mitch.Rmd", package = "mitch")
+    rmd <- system.file("mitch.Rmd", package = "mitch")
     rmarkdown::render(rmd, intermediates_dir = "." , output_file = html_tmp)
     file.copy(html_tmp, outfile, overwrite=overwrite)
 }
