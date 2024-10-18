@@ -1465,7 +1465,7 @@ mitch_calc <- function(x, genesets, minsetsize = 10, cores = 1,
 
     if (ncol(x) > 1) {
 
-    corx <- cor(x)
+    corx <- cor(x,use="pairwise.complete.obs")
     diag(corx) <- 0
 
         if ( max(corx) == 1 ) {
