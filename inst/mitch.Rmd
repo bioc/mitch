@@ -95,10 +95,10 @@ Here is a plot of the input profiles. Note the dynamic ranges.
 if ( d==1 ) {
     par(mfrow=c(2,1))
     hist(res$input_profile[,1],breaks=50,main="Distribution of DE scores",xlab=paste("DE score for ",colnames(res$input_profile)))
-    plot(res$input_profile,xlab=paste("DE score for ",colnames(res$input_profile)),
+    plot(res$input_profile[,1],xlab=paste("DE score for ",colnames(res$input_profile)),
     pch="|",frame.plot=FALSE)
-    UPS=length(which(res$input_profile>0))
-    DNS=length(which(res$input_profile<0))
+    UPS=length(which(res$input_profile[,1]>0))
+    DNS=length(which(res$input_profile[,1]<0))
     TOTAL=nrow(res$input_profile)
     mtext(paste(TOTAL,"genes in total,",UPS,"trending up-regulated,",DNS,"trending down-regulated"))
 } else if ( d<3 ) {
