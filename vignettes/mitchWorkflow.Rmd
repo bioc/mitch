@@ -196,7 +196,7 @@ which are useful as a first-pass visualisation. These can be generated like
 this:
 
 ```{r,report,results="hide"}
-mitch_report(res,"myreport.html")
+mitch_report(res,"myreport.html",overwrite=TRUE)
 ```
 
 ## Generate high resolution plots
