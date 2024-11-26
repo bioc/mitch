@@ -1,9 +1,13 @@
+
+CHANGES IN VERSION 1.19.3
+------------------------
+   o Fixed a breaking bug in mitch_plots() for 2D analysis.
+
 CHANGES IN VERSION 1.15.5
 ------------------------
    o The default number of cores has been set to 1.
 
    o An issue with contrasts being identical has been resolved.
-
 
 CHANGES IN VERSION 1.15.4
 ------------------------
