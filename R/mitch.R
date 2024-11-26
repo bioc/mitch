@@ -1634,7 +1634,7 @@ plot2d_gene_quadrant_barchart <- function(res) {
     rownames(a) <- c("top-right", "bottom-right", "bottom-left", "top-left")
     colnames(a) <- "a"
     barplot(a$a, names.arg = rownames(a), 
-    main <- "number of genes in each quadrant")
+        main = "number of genes in each quadrant")
     pl <- recordPlot()
     pl
 }
